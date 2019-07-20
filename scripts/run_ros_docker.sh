@@ -17,5 +17,5 @@ echo "Starting container..."
 docker run -d \
     --name $CONTAINER_NAME \
     --hostname $CONTAINER_NAME \
-    --mount type=bind,source=$LOCAL_PROJECT_DIR,target=$CONTAINER_PROJECT_DIR \
+    --mount type=bind,readonly,source=$LOCAL_PROJECT_DIR,target=$CONTAINER_PROJECT_DIR \
     $IMAGE_NAME $COMMAND
