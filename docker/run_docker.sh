@@ -4,8 +4,13 @@ IMAGE_NAME="sheaffej/b2:latest"
 CONTAINER_NAME="b2"
 COMMAND="sleep infinity"
 
-LOCAL_DIR_1="/Users/jsheaffer/code-projects/b2"
+MYDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+REPOS_DIR=$MYDIR/../..  # Directory containing the cloned git repos
+
+LOCAL_DIR_1="$REPOS_DIR/b2"
 TARGET_DIR_1="/ros/src/b2"
+LOCAL_DIR_2="$REPOS_DIR/roboclaw_driver"
+TARGET_DIR_2="/ros/src/roboclaw_driver"
 
 # -----------------------
 # Re-create the container
@@ -19,11 +24,20 @@ if [[ -n $ID ]]; then
 fi
 
 echo "Starting container..."
+# The install_project_deps.sh script uses rosdep to install the packages
+# required by the custom ROS source packages that are mounted.
+# We can't install those dependencies in the Dockerfile since the source
+# is not yet available in the container during build. We can change this
+# in the future and copy the source into the build, then add these deps
+# in the container. On container restart, the deps have already been
+# satisfied so the install_project_deps.sh script completes quickly.
 docker run -d \
-    --name $CONTAINER_NAME \
-    --hostname $CONTAINER_NAME \
-    --mount type=bind,readonly,source=$LOCAL_DIR_1,target=$TARGET_DIR_1 \
-    $IMAGE_NAME $COMMAND
+--name $CONTAINER_NAME \
+--hostname $CONTAINER_NAME \
+--mount type=bind,source=$LOCAL_DIR_1,target=$TARGET_DIR_1 \
+--mount type=bind,source=$LOCAL_DIR_2,target=$TARGET_DIR_2 \
+$IMAGE_NAME bash -c \
+"source /ros/src/b2/scripts/install_project_deps.sh && $COMMAND"
 
 
 # ---------------------------

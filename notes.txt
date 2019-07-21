@@ -73,3 +73,11 @@ OUTPUT: base_node/cmd_vel
 | industrial_ci |
 =-=-=-=-=-=-=-=-=
 rosrun industrial_ci run_travis -
+
+
+-------------------------
+cd $ROS_WS
+catkin_make
+apt-get update
+rosdep update
+rosdep install --from-paths src --ignore-src -r -y
