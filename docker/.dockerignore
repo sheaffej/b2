@@ -1,7 +1,0 @@
-# Ignore helper scripts
-build_docker.sh
-run_docker.sh
-shell_exec.sh
-
-# We access this file through the ROS_WS mount so we don't have to rebuild if we change it
-mybashrc
