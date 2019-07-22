@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CONTAINER_NAME="b2"
+CONTAINER_NAME="b2-dev"
 ENTRYPOINT="/ros_entrypoint.sh"
 CMDS="bash"
 

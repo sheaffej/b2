@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMAGE_NAME="sheaffej/b2"
+IMAGE_NAME="b2-dev"
 TAG="latest"
 
 MYDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"

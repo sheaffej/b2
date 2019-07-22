@@ -1,14 +1,15 @@
 #!/bin/bash
 
-IMAGE_NAME="sheaffej/b2:latest"
-CONTAINER_NAME="b2"
-COMMAND="sleep infinity"
+IMAGE_NAME="b2-dev:latest"
+CONTAINER_NAME="b2-dev"
 
 MYDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 REPOS_DIR=$MYDIR/../..  # Directory containing the cloned git repos
+REPOS_DIR=/Users/jsheaffer/code-projects
 
 LOCAL_DIR_1="$REPOS_DIR/b2"
 TARGET_DIR_1="/ros/src/b2"
+
 LOCAL_DIR_2="$REPOS_DIR/roboclaw_driver"
 TARGET_DIR_2="/ros/src/roboclaw_driver"
 
@@ -36,8 +37,7 @@ docker run -d \
 --hostname $CONTAINER_NAME \
 --mount type=bind,source=$LOCAL_DIR_1,target=$TARGET_DIR_1 \
 --mount type=bind,source=$LOCAL_DIR_2,target=$TARGET_DIR_2 \
-$IMAGE_NAME bash -c \
-"source /ros/src/b2/scripts/install_project_deps.sh && $COMMAND"
+$IMAGE_NAME
 
 
 # ---------------------------
@@ -46,4 +46,4 @@ $IMAGE_NAME bash -c \
 # Assume we would like to be in an attached shell afterwards
 # We can exit form this shell and the containers will stay running
 # since the container RUNs with the -d option
-docker exec -it $CONTAINER_NAME ./ros_entrypoint.sh bash
+docker exec -it $CONTAINER_NAME ./b2_entrypoint.sh bash

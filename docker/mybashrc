@@ -3,24 +3,17 @@
 # ---------------
 # ROS Environment
 # ---------------
-if [ -f ${ROS_WS}/devel/setup.bash ]; then
-    source ${ROS_WS}/devel/setup.bash
-else
-    echo
-    echo "!!! Please run wsmake to initialize the workspace !!!"
-    echo
-fi
+while [ ! -f ${ROS_WS}/devel/setup.bash ]; do
+    echo "Waiting for initial catkin_make to complete"
+    sleep 3
+done
+source ${ROS_WS}/devel/setup.bash
 
 cd ${ROS_WS}/src
 
-# -----------------
-# Tools Environment
-# -----------------
-# export COVERAGE_FILE=/root/coverage
-
-# --------------------
-# Convenience settings
-# --------------------
+# -------
+# Helpers
+# -------
 alias wscd="cd $ROS_WS/src"
 alias wsmake="pushd $ROS_WS; catkin_make; source $ROS_WS/devel/setup.bash; popd" 
 alias wsmakeforce="pushd $ROS_WS; catkin_make --force-cmake; source $ROS_WS/devel/setup.bash; popd" 

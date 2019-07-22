@@ -1,8 +1,5 @@
 FROM ros:kinetic
 
-SHELL ["/bin/bash", "-c"]
-ENV ROS_WS /ros
-
 # Install pip 
 RUN apt-get update && \
 	apt-get install -y python-pip && \
@@ -23,10 +20,8 @@ RUN apt-get update && \
 	&& \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Intsall Python app dependencies 
-# RUN pip install --ignore-installed \
-		# serial 
+ENV ROS_WS /ros
 
-# Configure the environment
-RUN echo >> /root/.bashrc && \
-    echo "source ${ROS_WS}/src/b2/docker/mybashrc" >> /root/.bashrc
+COPY b2_entrypoint.sh /
+ENTRYPOINT [ "/b2_entrypoint.sh" ]
+CMD [ "sleep", "infinity" ]
