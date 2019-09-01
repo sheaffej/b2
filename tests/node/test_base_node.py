@@ -192,12 +192,11 @@ class TestBaseNode(unittest.TestCase):
 
         print("Actual: ({}, {}, {}), Expected: ({}, {}, {})".format(
             x_actual, y_actual, th_actual, x_exp_adj, y_exp_adj, theta_exp_adj))
-        self.assertAlmostEqual(x_actual, x_exp_adj, delta=0.5)
-        self.assertAlmostEqual(y_actual, y_exp_adj, delta=0.5)
+        self.assertAlmostEqual(x_actual, x_exp_adj, places=2)
+        self.assertAlmostEqual(y_actual, y_exp_adj, places=2)
         self.assertAlmostEqual(
             normalize_theta(th_actual),
-            normalize_theta(theta_exp_adj),
-            delta=0.5
+            normalize_theta(theta_exp_adj)
         )
 
 
