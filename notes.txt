@@ -44,6 +44,12 @@ OUTPUT: ir_sensors/proximity
     Msg: b2.Proximity
     To: pilot_node
 
+MCP3008
+https://learn.adafruit.com/raspberry-pi-analog-to-digital-converters/mcp3008
+To use hardware SPI first make sure you've enabled SPI using the raspi-config tool.
+Be sure to answer yes to both enabling the SPI interface and loading the SPI kernel module,
+then reboot the Pi.  Check you can see a /dev/spidev0.0 and /dev/spidev0.1 device when you run
+the ls -l /dev/spi* command before continuing.
 
 -----------
 pilot_node
