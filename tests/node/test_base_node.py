@@ -196,7 +196,8 @@ class TestBaseNode(unittest.TestCase):
         self.assertAlmostEqual(y_actual, y_exp_adj, places=2)
         self.assertAlmostEqual(
             normalize_theta(th_actual),
-            normalize_theta(theta_exp_adj)
+            normalize_theta(theta_exp_adj),
+            places=1
         )
 
 
