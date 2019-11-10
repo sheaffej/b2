@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
     This is used to only launch the base node, with no roboclaw node or testing node.
-    The roboclaw node should be launche separately, either with a real roboclaw device,
+    The roboclaw node should be launched separately, either with a real roboclaw device,
     or the roboclaw stub.
 -->
 <launch>
