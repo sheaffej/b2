@@ -9,6 +9,7 @@
         <param name="address" type="int" value="128"/>
         <param name="loop_hz" type="int" value="100"/>
         <param name="deadman_secs" type="int" value="3"/>
+
         <param name="speed_cmd_topic" type="str" value="roboclaw/speed_command"/>
         <param name="stats_topic" type="str" value="roboclaw_front/stats"/>
     </node>

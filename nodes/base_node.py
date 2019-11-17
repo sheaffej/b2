@@ -13,12 +13,12 @@ from b2_logic.nodes.base import BaseNode
 DEFAULT_NODE_NAME = "base_node"
 
 # Subscribes
-DEFAULT_CMD_TOPIC = "base_node/cmd_vel"
-DEFAULT_ROBOCLAW_FRONT_STATS_TOPIC = "roboclaw_front/stats"
-DEFAULT_ROBOCLAW_REAR_STATS_TOPIC = "roboclaw_rear/stats"
+DEFAULT_CMD_VEL_TOPIC = "~cmd_vel"
+DEFAULT_ROBOCLAW_FRONT_STATS_TOPIC = "/roboclaw_front/stats"
+DEFAULT_ROBOCLAW_REAR_STATS_TOPIC = "/roboclaw_rear/stats"
 
 # Publishes
-DEFAULT_SPEED_CMD_TOPIC = "roboclaw/speed_command"
+DEFAULT_SPEED_CMD_TOPIC = "/roboclaw/speed_command"
 DEFAULT_ODOM_TOPIC = "~odom"
 
 # Default Parameters
@@ -67,7 +67,7 @@ if __name__ == "__main__":
 
     # Joy message Subscriber
     rospy.Subscriber(
-        rospy.get_param("~cmd_topic", DEFAULT_CMD_TOPIC),
+        rospy.get_param("~cmd_vel_topic", DEFAULT_CMD_VEL_TOPIC),
         Twist,
         node.cmd_vel_callback
     )
