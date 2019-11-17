@@ -92,6 +92,7 @@ class BaseNode:
             self._x_linear_cmd = msg.linear.x
             self._z_angular_cmd = msg.angular.z
             self._last_cmd_vel_time = rospy.get_rostime()
+            rospy.logdebug("CMD Vel - X: {}  |  Z: {}".format(msg.linear.x, msg.angular.z))
 
     def roboclaw_stats_callback(self, stats, callback_args):
         """Called by the Roboclaw Stats message subscriber

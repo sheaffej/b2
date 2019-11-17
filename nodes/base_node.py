@@ -13,13 +13,13 @@ from b2_logic.nodes.base import BaseNode
 DEFAULT_NODE_NAME = "base_node"
 
 # Subscribes
-DEFAULT_CMD_VEL_TOPIC = "~cmd_vel"
+DEFAULT_CMD_VEL_TOPIC = "{}/cmd_vel".format(DEFAULT_NODE_NAME)
 DEFAULT_ROBOCLAW_FRONT_STATS_TOPIC = "/roboclaw_front/stats"
 DEFAULT_ROBOCLAW_REAR_STATS_TOPIC = "/roboclaw_rear/stats"
 
 # Publishes
 DEFAULT_SPEED_CMD_TOPIC = "/roboclaw/speed_command"
-DEFAULT_ODOM_TOPIC = "~odom"
+DEFAULT_ODOM_TOPIC = "{}/odom".format(DEFAULT_ODOM_TOPIC)
 
 # Default Parameters
 DEFAULT_LOOP_HZ = 10  # hertz
