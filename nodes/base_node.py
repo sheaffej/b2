@@ -9,18 +9,21 @@ import tf
 from roboclaw_driver.msg import SpeedCommand, Stats
 from b2_logic.nodes.base import BaseNode
 
+
 DEFAULT_NODE_NAME = "base_node"
 
 # Subscribes
 DEFAULT_CMD_TOPIC = "base_node/cmd_vel"
-DEFAULT_ROBOCLAW_STATS_TOPIC = "roboclaw/stats"
+DEFAULT_ROBOCLAW_FRONT_STATS_TOPIC = "roboclaw_front/stats"
+DEFAULT_ROBOCLAW_REAR_STATS_TOPIC = "roboclaw_rear/stats"
 
 # Publishes
 DEFAULT_SPEED_CMD_TOPIC = "roboclaw/speed_command"
 DEFAULT_ODOM_TOPIC = "~odom"
 
+# Default Parameters
 DEFAULT_LOOP_HZ = 10  # hertz
-DEFAULT_WHEEL_DIST = 0.220  # meters
+DEFAULT_WHEEL_DIST = 0.180  # meters
 DEFAULT_WHEEL_RADIUS = 0.0325  # meters
 DEFAULT_TICKS_PER_ROTATION = 48 * 34
 DEFAULT_MAX_QPPS = 3700
@@ -71,9 +74,17 @@ if __name__ == "__main__":
 
     # Roboclaw Stats message Subscriber
     rospy.Subscriber(
-        rospy.get_param("~roboclaw_stats_topic", DEFAULT_ROBOCLAW_STATS_TOPIC),
+        rospy.get_param("~roboclaw_front_stats_topic", DEFAULT_ROBOCLAW_FRONT_STATS_TOPIC),
         Stats,
-        node.roboclaw_stats_callback
+        node.roboclaw_stats_callback,
+        "front"
+    )
+
+    rospy.Subscriber(
+        rospy.get_param("~roboclaw_rear_stats_topic", DEFAULT_ROBOCLAW_REAR_STATS_TOPIC),
+        Stats,
+        node.roboclaw_stats_callback,
+        "rear"
     )
 
     node.run(loop_hz)
