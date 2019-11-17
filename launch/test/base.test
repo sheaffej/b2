@@ -5,7 +5,7 @@
 -->
 <launch>
 
-    <node name="base_node" pkg="b2" type="base_node.py">
+    <!-- <node name="base_node" pkg="b2" type="base_node.py">
         <param name="wheel_dist" type="double" value="0.220"/>
         <param name="wheel_radius" type="double" value="0.0325"/>
         <param name="ticks_per_rotation" type="int" value="1632"/>
@@ -30,7 +30,14 @@
         <param name="deadman_secs" type="int" value="3"/>
         <param name="speed_cmd_topic" type="str" value="roboclaw/speed_command"/>
         <param name="stats_topic" type="str" value="roboclaw/stats"/>
-    </node>
+    </node> -->
+
+    <include file="$(find b2)/launch/nodes/base-node.launch" />
+    <include file="$(find b2)/launch/nodes/roboclaw_front-node.launch" />
+    <include file="$(find b2)/launch/nodes/roboclaw_rear-node.launch" />
+
+    <param name="roboclaw_front/test_mode" value="false" />
+    <param name="roboclaw_rear/test_mode" value="false"/>
 
     <test test-name="base_node_test" pkg="b2" type="test_base_node.py">
         <param name="cmd_vel_topic" type="str" value="/base_node/cmd_vel"/>

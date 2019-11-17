@@ -1,7 +1,6 @@
 <launch>
  <!-- 
-    This is used to only launch the front Roboclaw node for operational testing,
-    by sending commands directly to the /roboclaw/speed_command topic.
+    This is used to launch only the roboclaw_front node for on-robot operation.
 -->
     <node name="roboclaw_front" pkg="roboclaw_driver" type="roboclaw_node.py">
         <param name="test_mode" type="bool" value="false"/>
@@ -11,6 +10,7 @@
         <param name="loop_hz" type="int" value="100"/>
         <param name="deadman_secs" type="int" value="3"/>
         <param name="speed_cmd_topic" type="str" value="roboclaw/speed_command"/>
-        <param name="stats_topic" type="str" value="roboclaw/stats"/>
+        <param name="stats_topic" type="str" value="roboclaw_front/stats"/>
     </node>
+
 </launch>
