@@ -14,7 +14,7 @@ from b2_logic.base_functions import (
 
 class BaseNode:
     def __init__(self, wheel_dist, wheel_radius, ticks_per_rotation,
-                 max_drive_secs, deadman_secs, max_qpps,
+                 max_drive_secs, deadman_secs, max_qpps, max_accel,
                  base_frame_id, world_frame_id,
                  speed_cmd_pub, odom_pub, tf_broadcaster):
 
@@ -24,6 +24,7 @@ class BaseNode:
         self._max_drive_secs = max_drive_secs
         self._deadman_secs = deadman_secs
         self._max_qpps = max_qpps
+        self._max_accel = max_accel
         self._base_frame_id = base_frame_id
         self._world_frame_id = world_frame_id
 
@@ -129,7 +130,7 @@ class BaseNode:
         cmd = calc_create_speed_cmd(
             x_linear_cmd, z_angular_cmd,
             self._wheel_dist, self._wheel_radius,
-            self._ticks_per_rotation, self._max_drive_secs, self._max_qpps
+            self._ticks_per_rotation, self._max_drive_secs, self._max_qpps, self._max_accel
         )
         self._speed_cmd_pub.publish(cmd)
 

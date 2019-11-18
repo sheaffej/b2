@@ -27,6 +27,7 @@ DEFAULT_WHEEL_DIST = 0.180  # meters
 DEFAULT_WHEEL_RADIUS = 0.0325  # meters
 DEFAULT_TICKS_PER_ROTATION = 48 * 34
 DEFAULT_MAX_QPPS = 3700
+DEFAULT_MAX_ACCEL = 20000
 DEFAULT_MAX_DRIVE_SECS = 1
 DEFAULT_ODOM_FRAME_ID = "world"
 DEFAULT_BASE_FRAME_ID = "base_link"
@@ -43,6 +44,7 @@ if __name__ == "__main__":
     max_drive_secs = rospy.get_param("~max_drive_secs", DEFAULT_MAX_DRIVE_SECS)
     deadman_secs = rospy.get_param("~deadman_secs", DEFAULT_DEADMAN_SECS)
     max_qpps = rospy.get_param("~max_qpps", DEFAULT_MAX_QPPS)
+    max_accel = rospy.get_param("~max_accel", DEFAULT_MAX_ACCEL)
     base_frame_id = rospy.get_param("~base_frame_id", DEFAULT_BASE_FRAME_ID)
     world_frame_id = rospy.get_param("~odom_frame_id", DEFAULT_ODOM_FRAME_ID)
     loop_hz = rospy.get_param("~loop_hz", DEFAULT_LOOP_HZ)
@@ -61,7 +63,7 @@ if __name__ == "__main__":
     tf_broadcaster = tf.broadcaster.TransformBroadcaster()
 
     node = BaseNode(wheel_dist, wheel_radius, ticks_per_rotation,
-                    max_drive_secs, deadman_secs, max_qpps,
+                    max_drive_secs, deadman_secs, max_qpps, max_accel,
                     base_frame_id, world_frame_id,
                     speed_cmd_pub, odom_pub, tf_broadcaster)
 
