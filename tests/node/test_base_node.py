@@ -102,16 +102,16 @@ class TestBaseNode(unittest.TestCase):
             world_x_exp, world_y_exp, world_theta_exp
         )
 
-    def test_multi_movement(self):
-        # self.test_drive_reverse()
-        self.test_drive_forward()
-        self.test_turn_left()
-        self.test_drive_forward()
-        self.test_turn_right()
-        self.test_drive_reverse()
-        self.test_turn_right()
-        self.test_drive_forward()
-        self.test_turn_left()
+    # def test_multi_movement(self):
+    #     # self.test_drive_reverse()
+    #     self.test_drive_forward()
+    #     self.test_turn_left()
+    #     self.test_drive_forward()
+    #     self.test_turn_right()
+    #     self.test_drive_reverse()
+    #     self.test_turn_right()
+    #     self.test_drive_forward()
+    #     self.test_turn_left()
 
     def test_forward_left(self):
         self.test_drive_forward()
