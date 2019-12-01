@@ -92,6 +92,8 @@ Find the Vendor and Product IDs from lsusb
     Bus 001 Device 004: ID 03eb:2404 Atmel Corp. The Micro
     Bus 001 Device 005: ID 03eb:2404 Atmel Corp. The Micro
 
+root: udevadm monitor  # to see udev events
+
 Above, the Atmel Corp devices "ID 03eb:2404" equals: Vendor:03eb & Product: 2404
 Then, find the serial number of a USB device (Ex: /dev/ttyACM0)
 
