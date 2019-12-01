@@ -1,0 +1,42 @@
+# FROM osrf/ros:melodic-desktop-full-bionic
+FROM ros:melodic
+
+SHELL [ "bash", "-c"]
+
+# Required for Raspberry Pi (i.e. Arm) builds
+RUN if [ $(uname -m | grep arm) ]; then \ 
+	apt-get update && \
+	apt-get install -y libffi-dev libssl-dev && \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ; \
+	fi
+
+# Install pip 
+RUN apt-get update && \
+	apt-get install -y python-pip && \
+	pip install --no-cache-dir --upgrade pip && \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Install Python testing packages
+RUN pip install \
+		pytest \
+		pytest-cov \
+		coveralls
+
+# Install OS packages
+RUN apt-get update && \
+	apt-get install -y \
+		bash-completion \
+		htop \
+	&& \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Workaround for faiing dep install on osrf/ros image https://stackoverflow.com/a/48569233
+# RUN python -m easy_install --upgrade pyOpenSSL
+
+
+RUN mkdir -p /ros/src
+ENV ROS_WS /ros
+
+COPY b2_entrypoint.sh /
+ENTRYPOINT [ "/b2_entrypoint.sh" ]
+CMD [ "sleep", "infinity" ]
