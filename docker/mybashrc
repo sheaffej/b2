@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# export PATH=~/scripts:$PATH
-
 export PYTHONDONTWRITEBYTECODE=1
 export SVGA_VGPU10=0
 
@@ -9,10 +7,6 @@ export SVGA_VGPU10=0
 # ROS Environment
 # ---------------
 source "/opt/ros/${ROS_DISTRO}/setup.bash"
-while [ ! -f /initial.complete ]; do
-    echo "Waiting for initial catkin_make to complete"
-    sleep 3
-done
 source "${ROS_WS}/devel/setup.bash"
 
 cd ${ROS_WS}/src

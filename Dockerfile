@@ -1,7 +1,10 @@
 FROM osrf/ros:melodic-desktop-full-bionic
-# FROM ros:melodic
 
+ENV CODE_MOUNT /workspaces
+ENV ROS_WS /ros
+ENV PYTEST_ADDOPTS "--color=yes"
 SHELL [ "bash", "-c"]
+WORKDIR /root
 
 # Required for Raspberry Pi (i.e. Arm) builds
 # RUN if [ $(uname -m | grep arm) ]; then \ 
@@ -34,10 +37,31 @@ RUN apt-get update && \
 # Workaround for faiing dep install on osrf/ros image https://stackoverflow.com/a/48569233
 RUN python -m easy_install --upgrade pyOpenSSL
 
+RUN pip install \
+	Adafruit-GPIO \
+	Adafruit-MCP3008 \
+	spidev
 
-RUN mkdir -p /ros/src
-ENV ROS_WS /ros
 
-COPY b2_entrypoint.sh /
-ENTRYPOINT [ "/b2_entrypoint.sh" ]
+RUN mkdir -p ${CODE_MOUNT} && \
+	mkdir -p ${CODE_MOUNT}/b2 && \
+	mkdir -p ${ROS_WS}/src && \
+	ln -s ${CODE_MOUNT}/b2 ${ROS_WS}/src/b2 && \
+	ln -s ${CODE_MOUNT}/roboclaw_driver ${ROS_WS}/src/roboclaw_driver
+
+RUN cd ${CODE_MOUNT} && git clone https://github.com/sheaffej/roboclaw_driver.git
+
+RUN echo "source ${CODE_MOUNT}/b2/docker/mybashrc" >> /root/.bashrc && \
+	echo "echo In bash_profile" >> /root/.bash_profile && \
+	echo "source /root/.bashrc" >> /root/.bash_profile
+
+ADD docker/entry /
+ENTRYPOINT [ "/entry" ]
 CMD [ "sleep", "infinity" ]
+
+ADD . ${CODE_MOUNT}/b2/
+
+RUN source "/opt/ros/$ROS_DISTRO/setup.bash" && \
+	apt-get update && \
+	cd $ROS_WS && catkin_make && \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

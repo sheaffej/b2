@@ -4,7 +4,7 @@ IMAGE_NAME="b2-base"
 TAG="latest"
 
 MYDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-pushd $MYDIR
+pushd $MYDIR/..
 
 if [[ ! -z $1 && $1 == "nocache" ]]; then
   echo "---- Buiding without cache ----"

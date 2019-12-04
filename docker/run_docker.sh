@@ -5,14 +5,14 @@ CONTAINER_NAME="b2-base"    # Hostname for the started container
 ROBOT_HOSTNAME="b2"         # Hostname of the Ubuntu robot host
 DEV_HOSTNAME="ros-dev"      # Hostname of the Ubuntu dev host/VM
 
-TARGET_DIR_1="/workspaces/b2_project"
+CODE_MOUNT="/workspaces"
 
 # DEVICES="/dev/roboclaw_front /dev/roboclaw_rear /dev/spidev0.0 /dev/spidev0.1 /dev/input/js0 /dev/dri"
 VOLUMES="/tmp/.X11-unix $HOME/.Xauthority:/root/.Xauthority"
 
 MYDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-REPOS_DIR=$MYDIR/..  # Directory containing the cloned git repos
-LOCAL_DIR_1="$REPOS_DIR"
+REPOS_DIR=$MYDIR/../..  # Directory containing the cloned git repos
+# LOCAL_DIR="$REPOS_DIR"
 
 # Daemon or Interactive
 OPTIONS="-d"
@@ -56,7 +56,7 @@ echo "Starting container..."
 docker run $OPTIONS \
 --name $CONTAINER_NAME \
 --hostname $CONTAINER_NAME \
---mount type=bind,source=$LOCAL_DIR_1,target=$TARGET_DIR_1 \
+--mount type=bind,source=$REPOS_DIR,target=$CODE_MOUNT \
 -e DISPLAY=$DISPLAY \
 $DOCKER_VOLUMES \
 $DOCKER_DEVICES \
