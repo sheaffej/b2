@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 IMAGE_NAME="b2-base:latest"
 CONTAINER_NAME="b2-base"
