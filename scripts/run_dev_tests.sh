@@ -22,7 +22,7 @@ while [ $# -gt 0 ]; do
             echo "Using image code, vs locally mounted code"
             ;;
         "coveralls")
-            COVERALLS="; coveralls"
+            COVERALLS="; cd $PKG_DIR; coveralls"
             TRAVIS_ENV="-e TRAVIS_JOB_ID -e TRAVIS_BRANCH -e COVERALLS_REPO_TOKEN"
             echo "Running coveralls after unit tests"
             ;;
