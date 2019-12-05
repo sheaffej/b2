@@ -3,6 +3,10 @@ python: 3.7
 
 servies: docker
 
+arch:
+  - amd64
+  - arm64
+
 install:
   - docker build -t b2-base .
 
