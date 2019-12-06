@@ -3,12 +3,15 @@ python: 3.7
 
 servies: docker
 
-arch:
-  - amd64
-  - arm64
+jobs:
+  include:
+    - arch: amd64
+      env: DOCKERFILE=Dockerfile
+    - arch: arm64
+      env: DOCKERFILE=Dockerfile.arm
 
 install:
-  - docker build -t b2-base .
+  - docker build -t b2-base $DOCKERFILE
 
 script: 
   - scripts/run_dev_tests.sh nomount coveralls
