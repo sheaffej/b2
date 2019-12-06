@@ -4,12 +4,12 @@ python: 3.7
 servies: docker
 
 env:
-  - DOCKER_TAG=sheaffej/b2-base:"$TRAVIS_BRANCH"
+  - DOCKER_TAG=sheaffej/b2-base
 
 jobs:
   include:
     - arch: amd64
-      install: docker build -t "$DOCKER_TAG" -f Dockerfile .
+      install: docker build -t "$DOCKER_TAG":"$TRAVIS_BRANCH" -f Dockerfile .
     # - arch: arm64
     #   install: docker build -t "$DOCKER_TAG" -f Dockerfile.arm .
 
@@ -20,7 +20,7 @@ deploy:
   provider: script
   script:
     - echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker push "$DOCKER_TAG"
+    - docker push "$DOCKER_TAG":"$TRAVIS_BRANCH"
   on:
     branch:
       - master
