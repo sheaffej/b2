@@ -6,12 +6,12 @@ servies: docker
 jobs:
   include:
     - arch: amd64
-      env: DOCKERFILE=Dockerfile
+      install: docker build -t b2-base Dockerfile
     - arch: arm64
-      env: DOCKERFILE=Dockerfile.arm
+      install: docker build -t b2-base Dockerfile.arm
 
-install:
-  - docker build -t b2-base $DOCKERFILE
+# install:
+#   - docker build -t b2-base $DOCKERFILE
 
 script: 
   - scripts/run_dev_tests.sh nomount coveralls
