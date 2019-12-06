@@ -40,7 +40,8 @@ RUN python -m easy_install --upgrade pyOpenSSL
 RUN pip install \
 	Adafruit-GPIO \
 	Adafruit-MCP3008 \
-	spidev
+	spidev \
+	pyserial
 
 
 RUN mkdir -p ${CODE_MOUNT} && \

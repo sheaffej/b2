@@ -1,4 +1,4 @@
-FROM ros:melodic
+FROM ros:melodic-robot
 
 ENV CODE_MOUNT /workspaces
 ENV ROS_WS /ros
@@ -40,7 +40,8 @@ RUN apt-get update && \
 RUN pip install \
 	Adafruit-GPIO \
 	Adafruit-MCP3008 \
-	spidev
+	spidev \
+	pyserial
 
 
 RUN mkdir -p ${CODE_MOUNT} && \
