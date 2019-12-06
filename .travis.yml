@@ -6,9 +6,9 @@ servies: docker
 jobs:
   include:
     - arch: amd64
-      install: docker build -t b2-base Dockerfile
+      install: docker build -t b2-base -f Dockerfile .
     - arch: arm64
-      install: docker build -t b2-base Dockerfile.arm
+      install: docker build -t b2-base -f Dockerfile.arm .
 
 # install:
 #   - docker build -t b2-base $DOCKERFILE
