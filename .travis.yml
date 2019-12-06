@@ -4,7 +4,7 @@ python: 3.7
 servies: docker
 
 env:
-  - DOCKER_TAG=sheaffej/b2-base:$TRAVIS_BRANCH
+  - DOCKER_TAG=sheaffej/b2-base:"$TRAVIS_BRANCH"
 
 jobs:
   include:
