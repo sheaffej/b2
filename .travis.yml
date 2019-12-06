@@ -10,15 +10,19 @@ jobs:
   include:
     - arch: amd64
       install: docker build -t "$DOCKER_TAG" -f Dockerfile .
-    - arch: arm64
-      install: docker build -t "$DOCKER_TAG" -f Dockerfile.arm .
-
-# install:
-#   - docker build -t b2-base $DOCKERFILE
+    # - arch: arm64
+    #   install: docker build -t "$DOCKER_TAG" -f Dockerfile.arm .
 
 script: 
   - scripts/run_dev_tests.sh nomount coveralls
 
 deploy:
-  - echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push "$DOCKER_TAG"
+  provider: script
+  script:
+    - echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker push "$DOCKER_TAG"
+  on:
+    branch:
+      - master
+      - dev
+      - docker
