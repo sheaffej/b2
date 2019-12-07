@@ -6,17 +6,19 @@ servies: docker
 jobs:
   include:
     - arch: amd64
-      install: docker build -t b2-base -f Dockerfile .
-    # - arch: arm64
-      # install: docker build -t b2-base -f Dockerfile.arm .
+    - arch: arm64
 
+env:
+  - DOCKER_IMAGE="b2-base"
+
+install: docker build -t $DOCKER_IMAGE -f Dockerfile .
 
 script: 
   - scripts/run_dev_tests.sh nomount coveralls
 
-deploy:
-  - provider: script
-    script: scripts/travis_deploy_dockerhub.sh
-    on:
-      all_branches: true
-      condition: $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "dev"
+# deploy:
+#   - provider: script
+#     script: scripts/travis_deploy_dockerhub.sh
+#     on:
+#       all_branches: true
+#       condition: $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "dev"

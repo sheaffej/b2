@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 set -e
 
-IMAGE_NAME="b2-base:latest"
-CONTAINER_NAME="b2-base"
+if [[ -z $DOCKER_IMAGE ]]; then
+    DOCKER_IMAGE="b2-base"
+fi
+# CONTAINER_NAME="b2-base"
 PKG_DIR="/ros/src/b2"
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
@@ -42,7 +44,7 @@ echo
 docker run --rm \
 $VOLUME \
 $TRAVIS_ENV \
-$IMAGE_NAME \
+$DOCKER_IMAGE \
 bash -c "pytest -v --cov=$PKG_DIR/src $PKG_DIR/tests/unit/ $COVERALLS"
 
 # Exit if only running unit tests
@@ -55,6 +57,6 @@ echo "============================"
 echo "     Running Node Tests     "
 echo "============================"
 echo
-docker run --rm $VOLUME $IMAGE_NAME rostest b2 base.test
-docker run --rm $VOLUME $IMAGE_NAME rostest b2 sensors.test
-docker run --rm $VOLUME $IMAGE_NAME rostest b2 pilot.test
+docker run --rm $VOLUME $DOCKER_IMAGE rostest b2 base.test
+docker run --rm $VOLUME $DOCKER_IMAGE rostest b2 sensors.test
+docker run --rm $VOLUME $DOCKER_IMAGE rostest b2 pilot.test
