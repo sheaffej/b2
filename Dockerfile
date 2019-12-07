@@ -1,4 +1,12 @@
-FROM osrf/ros:melodic-desktop-full-bionic
+# FROM osrf/ros:melodic-desktop-full-bionic
+FROM ros:melodic-robot-bionic
+
+# Install full desktop on x86_64
+# RUN if [ $(uname -m | grep x86_64) ]; then \ 
+# 		apt-get update && \
+# 		apt-get install -y ros-melodic-desktop-full=1.4.1-0* && \
+# 		rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ; \
+# 	fi
 
 ENV CODE_MOUNT /workspaces
 ENV ROS_WS /ros
@@ -13,36 +21,34 @@ WORKDIR /root
 # 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* ; \
 # 	fi
 
-# Install pip 
+# Upgrade pip
 RUN apt-get update && \
 	apt-get install -y python-pip && \
-	pip install --no-cache-dir --upgrade pip && \
-	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+	pip install --no-cache-dir --upgrade pip
 
-# Install Python testing packages
-RUN pip install \
-		pytest \
-		pytest-cov \
-		coveralls
-
-# Install OS packages
+# Install common packages
 RUN apt-get update && \
 	apt-get install -y \
 		bash-completion \
 		htop \
 		vim \
 	&& \
+	pip install \
+		pytest \
+		pytest-cov \
+		coveralls \
+	&& \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Workaround for faiing dep install on osrf/ros image https://stackoverflow.com/a/48569233
-RUN python -m easy_install --upgrade pyOpenSSL
+# RUN python -m easy_install --upgrade pyOpenSSL
 
+# Install project-related Python packages
 RUN pip install \
 	Adafruit-GPIO \
 	Adafruit-MCP3008 \
 	spidev \
 	pyserial
-
 
 RUN mkdir -p ${CODE_MOUNT} && \
 	mkdir -p ${CODE_MOUNT}/b2 && \
@@ -61,8 +67,8 @@ ENTRYPOINT [ "/entry" ]
 CMD [ "sleep", "infinity" ]
 
 ADD . ${CODE_MOUNT}/b2/
-
 RUN source "/opt/ros/$ROS_DISTRO/setup.bash" && \
 	apt-get update && \
 	cd $ROS_WS && catkin_make && \
 	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
