@@ -18,9 +18,8 @@ deploy:
   - provider: script
     script: scripts/travis_deploy_dockerhub.sh
     on:
-      all_branches: true
-      # branch: master
-  # - provider: script
-  #   script: scripts/travis_deploy_dockerhub.sh
-  #   on:
-  #     branch: dev
+      branch: master
+  - provider: script
+    script: scripts/travis_deploy_dockerhub.sh
+    on:
+      branch: dev
