@@ -18,7 +18,7 @@ script:
 
 # deploy:
 #   - provider: script
-#     script: scripts/travis_deploy_dockerhub.sh
+#     script: docker/travis_deploy_dockerhub.sh
 #     on:
 #       all_branches: true
 #       condition: $TRAVIS_BRANCH == "master" || $TRAVIS_BRANCH == "dev"

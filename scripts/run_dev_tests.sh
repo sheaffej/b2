@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-if [[ -z $DOCKER_IMAGE ]]; then
-    DOCKER_IMAGE="b2-base"
-fi
+DOCKER_IMAGE="sheaffej/b2-base:dev"
 # CONTAINER_NAME="b2-base"
 PKG_DIR="/ros/src/b2"
 
@@ -29,11 +27,17 @@ while [ $# -gt 0 ]; do
             TRAVIS_ENV="-e TRAVIS_JOB_ID -e TRAVIS_BRANCH -e COVERALLS_REPO_TOKEN"
             echo "Running coveralls after unit tests"
             ;;
+        "tag")
+            shift
+            DOCKER_IMAGE="$1"
+            ;;
         *)
             echo "Unknown argument" $1
     esac
     shift
 done
+
+echo "Using Docker image tag: $DOCKER_IMAGE"
 
 
 echo
