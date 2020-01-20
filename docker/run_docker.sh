@@ -1,28 +1,33 @@
 #!/bin/bash
 
-if [[ -z $DOCKER_IMAGE ]]; then
-    DOCKER_IMAGE="b2-base"
-fi
+
+DOCKER_IMAGE="sheaffej/b2-base:dev"
 CONTAINER_NAME="b2-base"    # Hostname for the started container
 ROBOT_HOSTNAME="b2"         # Hostname of the Ubuntu robot host
 DEV_HOSTNAME="ros-dev"      # Hostname of the Ubuntu dev host/VM
-
 CODE_MOUNT="/workspaces/b2"
 
-# DEVICES="/dev/roboclaw_front /dev/roboclaw_rear /dev/spidev0.0 /dev/spidev0.1 /dev/input/js0 /dev/dri"
-VOLUMES="/tmp/.X11-unix $HOME/.Xauthority:/root/.Xauthority"
+OPTIONS="--rm -it"
 
+echo
+while [ $# -gt 0 ]; do
+    case $1 in
+        "tag")
+            shift
+            DOCKER_IMAGE="$1"
+            ;;
+        *)
+            echo "Unknown argument" $1
+    esac
+    shift
+done
+
+VOLUMES="/tmp/.X11-unix $HOME/.Xauthority:/root/.Xauthority"
 MYDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 PROJECT_DIR="$MYDIR/.."  # Directory containing the project
 
-# Daemon or Interactive
-OPTIONS="-d"
-if [[ ! -z $1 && $1 == "it" ]]; then
-    OPTIONS="-it"
-fi
-
 # Configure volumes, devices, and networking based on host
-if [[ `hostname` == $ROBOT_HOSTNAME || `hostname` == $DEV_HOSTNAME ]]; then
+if [[ $DEV || $ROBOT ]]; then
 
     # Attach volumes if present
     for VOL in $VOLUMES; do
@@ -31,11 +36,6 @@ if [[ `hostname` == $ROBOT_HOSTNAME || `hostname` == $DEV_HOSTNAME ]]; then
             DOCKER_VOLUMES="$DOCKER_VOLUMES -v $VOL"
         fi
     done
-
-    # Always restart container on robot hardware
-    if [[ `hostname` == $ROBOT_HOSTNAME ]]; then
-        RESTART="--restart always"
-    fi
 
     NETWORK="--network=host --env ROS_HOSTNAME=`hostname`"
     DOCKER_DEVICES="--privileged"
@@ -55,8 +55,7 @@ fi
 
 echo "Starting container..."
 docker run $OPTIONS \
---name $CONTAINER_NAME \
---hostname $CONTAINER_NAME \
+$NAME \
 --mount type=bind,source=$PROJECT_DIR,target=$CODE_MOUNT \
 -e DISPLAY=$DISPLAY \
 $DOCKER_VOLUMES \
@@ -69,9 +68,8 @@ $DOCKER_IMAGE
 # ---------------------------
 # Attach an interactive shell
 # ---------------------------
-# Assume we would like to be in an attached shell afterwards
 # Only run if container started in daemon mode
-if [[ -z $1 ]]; then
+if [[ $STARTSHELL -eq 1 ]]; then
 sleep 2     # Ensure the entry script starts before attaching the shelle
 docker exec -it $CONTAINER_NAME bash
 fi

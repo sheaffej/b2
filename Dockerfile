@@ -24,7 +24,8 @@ WORKDIR /root
 # Upgrade pip
 RUN apt-get update && \
 	apt-get install -y python-pip && \
-	pip install --no-cache-dir --upgrade pip
+	pip install --no-cache-dir --upgrade pip && \
+	rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install common packages
 RUN apt-get update && \
@@ -32,6 +33,7 @@ RUN apt-get update && \
 		bash-completion \
 		htop \
 		vim \
+		x11-apps \
 	&& \
 	pip install \
 		pytest \

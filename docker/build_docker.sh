@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOCKER_IMAGE="sheafffej/b2-base:dev"
+DOCKER_IMAGE="sheaffej/b2-base"
 
 echo
 while [ $# -gt 0 ]; do
